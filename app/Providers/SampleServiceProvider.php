@@ -15,8 +15,11 @@ class SampleServiceProvider extends ServiceProvider
             __DIR__.'/../../config/sample.php' => config_path('sample.php'),
         ], 'sample-config');
         $this->publishes([
-            __DIR__.'/../../database/migrations/' => database_path('migrations'),
+            __DIR__.'/../../database/migrations' => database_path('migrations'),
         ], 'sample-migrations');
+        $this->publishes([
+            __DIR__.'/../../database/seeders' => database_path('seeders'),
+        ], 'sample-seeders');
         $this->publishes([
             __DIR__.'/../../resources/lang' => $this->app->langPath('vendor/sample'),
         ], 'sample-lang');
