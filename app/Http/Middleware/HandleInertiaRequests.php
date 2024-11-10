@@ -3,8 +3,8 @@
 namespace Mxent\Sample\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 use Inertia\Middleware;
-use Inertia\Support\Header;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -46,9 +46,10 @@ class HandleInertiaRequests extends Middleware
      */
     public function handle(Request $request, \Closure $next)
     {
-
         $response = $next($request);
-        $page = $response->original['page'];
+
+        $component = isset($response->original['page']) ? $response->original['page']['component'] : $response->original['component'];
+        $props = isset($response->original['page']) ? $response->original['page']['props'] : $response->original['props'];
 
         $controller = $request->route()->getController();
         $controllerRef = (new \ReflectionClass($controller));
@@ -60,14 +61,8 @@ class HandleInertiaRequests extends Middleware
         $composerJson = json_decode(file_get_contents($currentDir.'/composer.json'), true);
         $basePath = base_path();
         $currentDirBits = explode($basePath, $currentDir);
-        $componentPath = $currentDirBits[count($currentDirBits) - 1].'/resources/js/pages/'.$page['component'];
-        $page['component'] = $componentPath;
-        $response->original->with('page', $page);
+        $componentPath = $currentDirBits[count($currentDirBits) - 1].'/resources/js/pages/'.$component;
 
-        if (! $request->header(Header::INERTIA)) {
-            $response->setContent($response->original->render());
-        }
-
-        return $response;
+        return Inertia::render($componentPath, $props);
     }
 }
