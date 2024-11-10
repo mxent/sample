@@ -22,6 +22,6 @@ class SampleController extends Controller implements HasMiddleware
      */
     public function index()
     {
-        return inertia('index');
+        return inertia('sample/index');
     }
 }

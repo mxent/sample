@@ -3,7 +3,6 @@
 namespace Mxent\Sample\Http\Middleware;
 
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -39,30 +38,5 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             //
         ]);
-    }
-
-    /**
-     * Handle
-     */
-    public function handle(Request $request, \Closure $next)
-    {
-        $response = $next($request);
-
-        $component = isset($response->original['page']) ? $response->original['page']['component'] : $response->original['component'];
-        $props = isset($response->original['page']) ? $response->original['page']['props'] : $response->original['props'];
-
-        $controller = $request->route()->getController();
-        $controllerRef = (new \ReflectionClass($controller));
-        $currentDir = dirname($controllerRef->getFileName());
-
-        while (! file_exists($currentDir.'/composer.json')) {
-            $currentDir = dirname($currentDir);
-        }
-        $composerJson = json_decode(file_get_contents($currentDir.'/composer.json'), true);
-        $basePath = base_path();
-        $currentDirBits = explode($basePath, $currentDir);
-        $componentPath = $currentDirBits[count($currentDirBits) - 1].'/resources/js/pages/'.$component;
-
-        return Inertia::render($componentPath, array_merge($this->share($request), $props));
     }
 }

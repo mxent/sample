@@ -11,7 +11,7 @@
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
     "@eslint/js": "^9.14.0",
-    "@inertiajs/react": "^1.2.0",
+    "@inertiajs/react": "^2.0.0-beta.2",
     "@types/node": "^22.9.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",

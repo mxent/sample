@@ -1,16 +1,22 @@
-import '../css/app.css';
+import { ThemeProvider } from '@/components/theme-provider';
 import { createInertiaApp } from '@inertiajs/react';
 import { createRoot } from 'react-dom/client';
-import { ThemeProvider } from '@/components/theme-provider';
+import '../css/app.css';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Sample';
 
 const components = import.meta.glob([
-    '/resources/js/pages/**/*.tsx',
-    '/resources/js/pages/**/*.jsx',
-    '/vendor/mxent/*/resources/js/**/*.tsx',
-    '/vendor/mxent/*/resources/js/**/*.jsx',
+    './pages/**/*.tsx',
+    '../../vendor/sample/*/resources/js/pages/**/*.tsx',
 ]);
+for (const key in components) {
+    if (!key.startsWith('./pages/')) {
+        const keyBits = key.split('pages/');
+        const newKey = `./pages/${keyBits[keyBits.length - 1]}`;
+        components[newKey] = components[key];
+        delete components[key];
+    }
+}
 
 createInertiaApp({
     title: title => (title ? `${title} - ${appName}` : appName),
