@@ -1,7 +1,7 @@
 import { PageProps } from '@/types';
 import { Deferred, usePage } from '@inertiajs/react';
 
-export default function DefferedPage() {
+const DefferedPage = () => {
     const { users } = usePage<PageProps>().props;
 
     return (
@@ -36,4 +36,6 @@ export default function DefferedPage() {
             </div>
         </>
     );
-}
+};
+
+export default DefferedPage;

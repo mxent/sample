@@ -1,7 +1,7 @@
 import Button from '@/components/button';
 import { Link } from '@inertiajs/react';
 
-export default function IndexPage() {
+const IndexPage = () => {
     return (
         <>
             <div className="p-3">
@@ -13,4 +13,6 @@ export default function IndexPage() {
             </div>
         </>
     );
-}
+};
+
+export default IndexPage;
